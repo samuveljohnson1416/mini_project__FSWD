@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatInput from '../components/ChatInput';
@@ -37,9 +37,25 @@ const Dashboard: React.FC = () => {
     fetchData();
   }, []);
 
+  const filterExpenses = useCallback(() => {
+    let filtered = [...expenses];
+
+    if (categoryFilter !== 'all') {
+      filtered = filtered.filter((exp) => exp.category === categoryFilter);
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter((exp) =>
+        exp.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredExpenses(filtered);
+  }, [expenses, searchQuery, categoryFilter]);
+
   useEffect(() => {
     filterExpenses();
-  }, [expenses, searchQuery, categoryFilter]);
+  }, [filterExpenses]);
 
   const fetchData = async () => {
     try {
@@ -57,22 +73,6 @@ const Dashboard: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const filterExpenses = () => {
-    let filtered = [...expenses];
-
-    if (categoryFilter !== 'all') {
-      filtered = filtered.filter((exp) => exp.category === categoryFilter);
-    }
-
-    if (searchQuery) {
-      filtered = filtered.filter((exp) =>
-        exp.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    setFilteredExpenses(filtered);
   };
 
   const handleAddExpense = async (input: string) => {
