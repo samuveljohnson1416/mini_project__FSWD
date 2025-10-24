@@ -61,9 +61,11 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
+    console.log('🔐 Login attempt for email:', email);
 
     // Validation
     if (!email || !password) {
+      console.log('❌ Missing email or password');
       res.status(400).json({ message: 'Please provide email and password' });
       return;
     }
@@ -71,19 +73,27 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('❌ User not found for email:', email);
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
+
+    console.log('✅ User found:', user.email);
 
     // Check password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
+      console.log('❌ Invalid password for user:', email);
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
+    console.log('✅ Password valid, generating token...');
+
     // Generate token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
+
+    console.log('✅ Login successful for:', email);
 
     res.json({
       message: 'Login successful',
@@ -95,7 +105,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       }
     });
   } catch (error: unknown) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
     res.status(500).json({ message: 'Server error during login' });
   }
 };

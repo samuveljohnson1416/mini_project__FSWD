@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -26,12 +25,15 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
+      console.log('Attempting login with:', formData.email);
       await login(formData.email, formData.password);
-      navigate('/dashboard');
+      console.log('Login successful, redirecting...');
+      // Use window.location for a hard redirect to ensure state is updated
+      window.location.href = '/dashboard';
     } catch (err: unknown) {
+      console.error('Login error:', err);
       const errorMessage = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to login';
       setError(errorMessage);
-    } finally {
       setIsLoading(false);
     }
   };

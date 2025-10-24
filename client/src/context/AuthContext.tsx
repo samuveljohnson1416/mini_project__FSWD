@@ -23,9 +23,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
+    console.log('AuthContext: Loading auth state from localStorage');
+    console.log('Token:', storedToken ? 'exists' : 'null');
+    console.log('User:', storedUser);
+
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
+      console.log('AuthContext: User authenticated');
+    } else {
+      console.log('AuthContext: No auth data found');
     }
     setIsLoading(false);
   }, []);
