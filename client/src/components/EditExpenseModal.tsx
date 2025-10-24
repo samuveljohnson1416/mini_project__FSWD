@@ -80,6 +80,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, onClose, o
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="input-field"
+              autoComplete="off"
               required
             />
           </div>
@@ -95,6 +96,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, onClose, o
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
               className="input-field"
+              autoComplete="off"
               required
             />
           </div>
@@ -107,6 +109,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, onClose, o
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="input-field"
+              autoComplete="off"
               required
             >
               {categories.map((cat) => (
@@ -126,6 +129,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({ expense, onClose, o
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               className="input-field"
+              autoComplete="off"
               required
             />
           </div>

@@ -24,10 +24,19 @@ api.interceptors.response.use(
   (error) => {
     console.log('API Error:', error.response?.status, error.response?.data);
     if (error.response?.status === 401) {
-      console.log('401 Unauthorized - Redirecting to login');
+      console.log('401 Unauthorized - Clearing auth data');
+      // Only redirect if we're not already on a public route
+      const isPublicRoute = window.location.pathname === '/login' || window.location.pathname === '/signup';
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      
+      if (!isPublicRoute) {
+        console.log('Redirecting to login...');
+        // Use a small delay to ensure localStorage is cleared
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 100);
+      }
     }
     return Promise.reject(error);
   }

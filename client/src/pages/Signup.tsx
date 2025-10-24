@@ -75,6 +75,7 @@ const Signup: React.FC = () => {
                 id="name"
                 name="name"
                 type="text"
+                autoComplete="name"
                 required
                 value={formData.name}
                 onChange={handleChange}
@@ -91,6 +92,7 @@ const Signup: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -107,6 +109,7 @@ const Signup: React.FC = () => {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="new-password"
                 required
                 value={formData.password}
                 onChange={handleChange}
@@ -123,6 +126,7 @@ const Signup: React.FC = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
+                autoComplete="new-password"
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}

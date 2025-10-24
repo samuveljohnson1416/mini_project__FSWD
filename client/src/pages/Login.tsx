@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,13 +28,14 @@ const Login: React.FC = () => {
     try {
       console.log('Attempting login with:', formData.email);
       await login(formData.email, formData.password);
-      console.log('Login successful, redirecting...');
-      // Use window.location for a hard redirect to ensure state is updated
-      window.location.href = '/dashboard';
+      console.log('Login successful, redirecting to dashboard...');
+      // Navigate to dashboard after successful login
+      navigate('/dashboard');
     } catch (err: unknown) {
       console.error('Login error:', err);
-      const errorMessage = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to login';
+      const errorMessage = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to login. Please check your credentials.';
       setError(errorMessage);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -64,6 +66,7 @@ const Login: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -80,6 +83,7 @@ const Login: React.FC = () => {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="current-password"
                 required
                 value={formData.password}
                 onChange={handleChange}

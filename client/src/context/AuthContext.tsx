@@ -38,25 +38,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await authService.login({ email, password });
-    const { token: newToken, user: newUser } = response;
+    try {
+      const response = await authService.login({ email, password });
+      const { token: newToken, user: newUser } = response;
 
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
+      // Clear any existing data first
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Set new data
+      localStorage.setItem('token', newToken);
+      localStorage.setItem('user', JSON.stringify(newUser));
 
-    setToken(newToken);
-    setUser(newUser);
+      setToken(newToken);
+      setUser(newUser);
+      
+      console.log('AuthContext: Login successful, state updated');
+    } catch (error) {
+      console.error('AuthContext: Login failed', error);
+      throw error;
+    }
   };
 
   const signup = async (name: string, email: string, password: string) => {
-    const response = await authService.signup({ name, email, password });
-    const { token: newToken, user: newUser } = response;
+    try {
+      const response = await authService.signup({ name, email, password });
+      const { token: newToken, user: newUser } = response;
 
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
+      // Clear any existing data first
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Set new data
+      localStorage.setItem('token', newToken);
+      localStorage.setItem('user', JSON.stringify(newUser));
 
-    setToken(newToken);
-    setUser(newUser);
+      setToken(newToken);
+      setUser(newUser);
+      
+      console.log('AuthContext: Signup successful, state updated');
+    } catch (error) {
+      console.error('AuthContext: Signup failed', error);
+      throw error;
+    }
   };
 
   const logout = () => {

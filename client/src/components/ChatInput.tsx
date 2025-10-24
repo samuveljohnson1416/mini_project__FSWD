@@ -43,6 +43,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSubmit }) => {
             placeholder="Type expense... e.g., 'tea 25' or 'paid electricity bill 500'"
             className="input-field pr-20"
             disabled={isSubmitting}
+            autoComplete="off"
           />
           <button
             type="submit"

@@ -28,6 +28,22 @@ Use these credentials to login:
 
 ## 🔧 If Login Issues Persist
 
+### Quick Fix: Reset Authentication (Recommended)
+Run this single command to fix JWT token issues:
+```powershell
+npm run reset:auth
+```
+
+This will:
+- Clear all users from database
+- Create fresh admin user
+- Show you the next steps
+
+Then:
+1. Clear browser localStorage: `localStorage.clear()` in console (F12)
+2. Refresh page
+3. Login with `admin@expense.com` / `Admin@123`
+
 ### Option 1: Clear Browser Data
 1. Press `F12` to open Developer Tools
 2. Go to **Console** tab
@@ -35,13 +51,20 @@ Use these credentials to login:
 4. Refresh the page (F5)
 5. Try logging in again
 
-### Option 2: Recreate Default User
+### Option 2: Clear All Users
 Run this command in PowerShell:
 ```powershell
-npx tsx server/src/utils/seedUser.ts
+npm run clear:users
+```
+Then create a new account via signup.
+
+### Option 3: Recreate Default User
+Run this command in PowerShell:
+```powershell
+npm run seed:user
 ```
 
-### Option 3: Use Signup Instead
+### Option 4: Use Signup Instead
 1. Go to **http://localhost:5176/signup**
 2. Create a new account with any email/password
 3. You'll be automatically logged in
@@ -85,18 +108,45 @@ Try these in the chat input:
 
 ## 🐛 Troubleshooting
 
+### Login Redirects Back Immediately (JWT Token Issue)
+
+If you login successfully but immediately get redirected back to the login page, this is a JWT token signature mismatch. Follow these steps:
+
+**Step 1: Clear Browser Storage**
+1. Open browser Developer Tools (`F12`)
+2. Go to **Console** tab
+3. Run: `localStorage.clear(); location.reload();`
+
+**Step 2: Clear All Users from Database**
+```powershell
+npx tsx server/src/utils/clearUsers.ts
+```
+
+**Step 3: Create a Fresh Account**
+1. Go to the **Signup** page
+2. Create a new account (use any email/password)
+3. You should be automatically logged in
+4. If successful, the Dashboard will load without redirecting back
+
+**Why This Happens:**
+- Old tokens created with different JWT secrets remain in localStorage
+- New login creates a valid token, but old token is being used for API calls
+- Clearing storage ensures fresh token generation
+
 ### Backend Issues
 - Check if port 5000 is available
 - Verify MongoDB connection in terminal logs
 - Look for "✅ MongoDB connected successfully"
+- Check for JWT errors: "invalid signature" means token mismatch
 
 ### Frontend Issues
 - Check if Vite is running on port 5176
 - Look for "VITE ready in xxx ms"
 - Clear browser cache and localStorage
+- Check browser console for API errors (401 Unauthorized)
 
 ### CORS Errors
-The backend accepts requests from ports 5173-5176. If you see CORS errors, the issue is likely the frontend is running on a different port.
+The backend accepts requests from ports 5173-5179. If you see CORS errors, the issue is likely the frontend is running on a different port.
 
 ## 📝 Database
 - **MongoDB Atlas**: Cluster0 (already configured)

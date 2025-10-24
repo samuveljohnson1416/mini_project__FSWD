@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
+// Load JWT_SECRET once at module level to ensure consistency
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+
 export interface AuthRequest extends Request {
   userId?: string;
 }
@@ -20,8 +23,8 @@ export const authMiddleware = async (
       return;
     }
 
-    const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
     console.log('🔑 Auth middleware - Using JWT_SECRET:', JWT_SECRET.substring(0, 10) + '...');
+    console.log('🎫 Auth middleware - Token prefix:', token.substring(0, 20) + '...');
     
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     console.log('✅ Auth middleware - Token valid, userId:', decoded.userId);

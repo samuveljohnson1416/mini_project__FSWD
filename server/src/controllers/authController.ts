@@ -91,7 +91,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     console.log('✅ Password valid, generating token...');
 
     // Generate token
+    console.log('🔑 Using JWT_SECRET for signing:', JWT_SECRET.substring(0, 10) + '...');
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
+    console.log('✅ Token generated:', token.substring(0, 20) + '...');
 
     console.log('✅ Login successful for:', email);
 
