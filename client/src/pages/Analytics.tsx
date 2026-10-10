@@ -87,7 +87,7 @@ const Analytics: React.FC = () => {
                         fill="#8884d8"
                         dataKey="value"
                       >
-                        {analyticsData.categoryData.map((entry, index) => (
+                        {analyticsData.categoryData.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>

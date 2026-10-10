@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Expense } from '../services/expenseService';
+import type { Expense } from '../services/expenseService';
 
 interface EditExpenseModalProps {
   expense: Expense | null;

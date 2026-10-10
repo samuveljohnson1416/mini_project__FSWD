@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Expense } from '../services/expenseService';
+import type { Expense } from '../services/expenseService';
 import { format } from 'date-fns';
 
 interface ExpenseListProps {

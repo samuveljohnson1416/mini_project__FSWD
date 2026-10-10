@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-// Load JWT_SECRET once at module level to ensure consistency
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+import { JWT_SECRET } from '../config/env';
 
 export interface AuthRequest extends Request {
   userId?: string;

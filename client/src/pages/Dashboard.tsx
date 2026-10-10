@@ -3,9 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatInput from '../components/ChatInput';
 import ExpenseList from '../components/ExpenseList';
-import Summary, { SummaryData } from '../components/Summary';
+import Summary, { type SummaryData } from '../components/Summary';
 import EditExpenseModal from '../components/EditExpenseModal';
-import { expenseService, Expense } from '../services/expenseService';
+import { expenseService, type Expense } from '../services/expenseService';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();

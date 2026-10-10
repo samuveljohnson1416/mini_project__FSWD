@@ -1,10 +1,5 @@
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-
-// Load environment variables
-dotenv.config({ path: 'server/.env' });
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+import { JWT_SECRET } from '../config/env';
 
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 console.log('  JWT Configuration Test');
